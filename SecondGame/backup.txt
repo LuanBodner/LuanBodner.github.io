@@ -1,0 +1,80 @@
+	ufoHit(spaceship, ufo) {
+		if (spaceship.health >= 1) {
+
+			spaceship.health -= 10
+			this.updateHUD()
+			ufo.kill()
+		}
+	}
+
+		update() {
+		/*
+				this.updateHUD()
+
+				this.game.physics.arcade.collide(this.spaceShip, this.map)
+				this.game.physics.arcade.collide(this.spaceShip, this.ufo, this.ufoHit.bind(this))
+		*/
+	}
+
+	reFuel() {
+
+		this.spaceShip.fuel += 100
+		this.gas.kill()
+	}
+
+	createUFO(x, y) {
+
+		this.ufo.push(this.game.add.sprite(x + 30, y, 'UFO'))
+
+		this.game.physics.arcade.enable(this.ufo[this.ufo.length - 1])
+		this.ufo[this.ufo.length - 1].scale.setTo(0.1)
+		this.ufo[this.ufo.length - 1].anchor.setTo(0.4, 0.4)
+
+		this.ufo[this.ufo.length - 1].body.immovable = true
+
+		this.game.add.tween(this.ufo[this.ufo.length - 1])
+			.to({
+				x: this.ufo[this.ufo.length - 1].body.x + 250,
+				y: this.ufo[this.ufo.length - 1].body.y
+			}, 1500)
+			.to({
+				x: this.ufo[this.ufo.length - 1].body.x,
+				y: this.ufo[this.ufo.length - 1].body.y
+			}, 1500)
+			.loop(-1)
+			.start()
+	}
+
+		createPlayer() {
+
+		this.spaceShip = new Player(this.game, 360, 1920, 'Spaceship')
+		this.spaceShip.addPlayerLevel(this.level1_background)
+		this.game.add.existing(this.spaceShip)
+		this.spaceShip.body.drag.set(0)
+
+	}
+
+		updateSpeeds() {
+
+		this.UFO.speedMovement = this.spaceShip.speed / 100
+		this.gas.speedMovement = this.spaceShip.speed / 100
+		this.snowball.speedMovement = this.spaceShip.speed * 2 / 100
+	}
+	
+		createHUD() {
+
+		this.fuel = this.game.add.text(0, 0, "Fuel: " + this.spaceShip.fuel);
+		this.speed = this.game.add.text(0, 25, "Speed: " + this.spaceShip.speed);
+		this.health = this.game.add.text(0, 50, "Health: " + this.spaceShip.health);
+
+		this.fuel.fixedToCamera = true
+		this.health.fixedToCamera = true
+		this.speed.fixedToCamera = true
+	}
+
+	updateHUD() {
+
+		this.fuel.text = "Fuel: " + this.spaceShip.fuel
+		this.speed.text = "Speed: " + this.spaceShip.speed
+		this.health.text = "Health: " + this.spaceShip.health
+	}

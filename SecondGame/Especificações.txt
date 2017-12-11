@@ -1,0 +1,21 @@
+
+
+Nome do Jogo: Nier (maybe)
+
+
+Jogabilidade:
+- space ship sobe eternamente
+- level 1 : passaros
+- level 2 : avioes
+- level 3 : UFO
+- level 4 : Lava, precisa manter a velocidade
+
+Itens bons:
+- moedas : +score
+- fuel : +alto consegue chegar
+- health : +vida
+
+Itens ruins:
+- leuf : -slow down
+- ??
+
