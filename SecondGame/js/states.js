@@ -42,6 +42,11 @@ class TitleState extends GameState {
 			this.isFinished = true
 			this.createText();
 		}
+
+		if (this.game.input.pointer1.isDown) {
+			this.isFinished = true
+			this.createText();
+		}
 	}
 
 	createText() {
@@ -56,9 +61,10 @@ class TitleState extends GameState {
 
 		//this.titleName = this.game.add.image(100, 100, 'Name');
 
+
 		let startButton = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER)
 		startButton.onDown.add(this.startFade, this)
-		this.game.input.pointer1.onDown.add(this.startFade, this)
+
 	}
 
 	startFade() {

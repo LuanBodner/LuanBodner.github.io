@@ -12,6 +12,8 @@ class Game extends Phaser.Game {
         this.state.add('Play', PlayState, false)
         this.state.add('End', EndState, false)
         this.state.add('Title', TitleState, false)
+      
+        this.game.touch.enabled = true
 
         this.state.start('Title')
         GAME = this
