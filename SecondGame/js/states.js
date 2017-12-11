@@ -58,6 +58,7 @@ class TitleState extends GameState {
 
 		let startButton = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER)
 		startButton.onDown.add(this.startFade, this)
+		this.game.input.pointer1.onDown.add(this.startFade, this)
 	}
 
 	startFade() {
