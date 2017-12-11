@@ -16,28 +16,23 @@ class Game extends Phaser.Game {
         this.state.start('Title')
         GAME = this
     }
-
-    hello() {
-        window.alert('hello')
-    }
 }
-
 // CLASSE GENERICA DE TELAS //////////////////////////////////////////////////////
 
 class GameState extends Phaser.State {
     initFullScreenButtons() {
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-
+        
         let fullScreenButton = this.input.keyboard.addKey(Phaser.Keyboard.ONE);
-        fullScreenButton.onDown.add(this.toggleFullScreen, this)
+        fullScreenButton.onDown.add(this.toggleFullScreen, this)    
 
         // full screen touch button
-        let fullScreenIcon = this.game.add.sprite(this.game.width - 10, this.game.height - 10,
+        let fullScreenIcon = this.game.add.sprite(this.game.width - 10, this.game.height - 10, 
             'Fullscreen')
         fullScreenIcon.anchor.setTo(1, 1)
         fullScreenIcon.scale.setTo(0.75, 0.75)
         fullScreenIcon.inputEnabled = true
-        fullScreenIcon.events.onInputDown.add(this.toggleFullScreen, this)
+        fullScreenIcon.events.onInputDown.add(this.toggleFullScreen, this)        
         fullScreenIcon.fixedToCamera = true
     }
 

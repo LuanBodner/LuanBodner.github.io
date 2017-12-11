@@ -67,10 +67,12 @@ class PlayState extends GameState {
 
 		this.game.load.image('BackgroundLevel', 'assets/DaySky.jpg')
 		this.game.load.image('End', `assets/End.jpg`);
+		this.game.load.image('Fullscreen', `assets/Fullscreen.png`);
 
 		let ll = "assets/Map" + Config.Level + ".json"
 
 		this.game.load.tilemap('Level', ll, null, Phaser.Tilemap.TILED_JSON);
+
 	}
 
 	create() {
@@ -113,7 +115,7 @@ class PlayState extends GameState {
 
 		//this.fps = new FramesPerSecond(this.game, this.game.width / 2, 50)
 		//this.game.add.existing(this.fps)
-
+		super.initFullScreenButtons()
 	}
 
 	createHUD() {
@@ -345,7 +347,7 @@ class PlayState extends GameState {
 	update() {
 
 		//Collide map
-				this.game.physics.arcade.collide(this.spaceShip, this.exitMap, this.loadNextLevel.bind(this))
+		this.game.physics.arcade.collide(this.spaceShip, this.exitMap, this.loadNextLevel.bind(this))
 		this.game.physics.arcade.collide(this.spaceShip, this.mapGroup)
 		this.game.physics.arcade.collide(this.thumpHazard, this.mapGroup)
 		this.game.physics.arcade.collide(this.birdEnemy, this.mapGroup, this.flipBird.bind(this))
@@ -375,7 +377,7 @@ class PlayState extends GameState {
 		this.background.tilePosition.x = -this.game.camera.x / 5
 		this.background.tilePosition.y = -this.game.camera.y / 5
 		this.updateHUD()
-			}
+	}
 
 	renderGroup(member) {
 

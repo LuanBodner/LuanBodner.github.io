@@ -4,6 +4,7 @@ class TitleState extends GameState {
 		this.game.load.image('Title', 'assets/Title.jpg')
 		this.game.load.image('Name', 'assets/Name.png')
 		this.game.load.audio('TitleAudio', 'assets/TitleScreen.mp3');
+		this.game.load.image('Fullscreen', `assets/Fullscreen.png`);
 
 	}
 	create() {
@@ -24,6 +25,8 @@ class TitleState extends GameState {
 			this.bmd.width, 1);
 
 		this.dropTime = this.game.time.now - 500;
+
+		super.initFullScreenButtons()
 	}
 
 	update() {
