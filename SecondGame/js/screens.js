@@ -77,7 +77,7 @@ class PlayState extends GameState {
 
 	create() {
 
-		this.game.physics.arcade.gravity.y = 100	
+		this.game.physics.arcade.gravity.y = 100
 
 		this.game.world.setBounds(0, 0, 1920, 1920);
 		this.game.renderer.roundPixels = true
@@ -391,6 +391,9 @@ class PlayState extends GameState {
 		//this.mudHazard.forEachAlive(this.renderGroup, this)
 		//this.stoneHazard.forEachAlive(this.renderGroup, this)
 		//athis.spikeHazard.forEachAlive(this.renderGroup, this)
+
+		this.game.debug.pointer(this.game.input.pointer1);
+
 	}
 }
 
