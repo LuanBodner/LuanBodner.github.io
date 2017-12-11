@@ -55,10 +55,11 @@ class TitleState extends GameState {
 		this.pressStart.y = this.game.height / 2 + 100
 
 		//this.titleName = this.game.add.image(100, 100, 'Name');
-
+		/*
 		let startButton = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER)
 		startButton.onDown.add(this.startFade, this)
-
+		*/
+		this.game.input.pointer1.onDown.add(this.startFade, this)
 	}
 
 	startFade() {
