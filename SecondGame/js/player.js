@@ -28,6 +28,13 @@ class Player extends Phaser.Sprite {
 		this.bounceValue = new Phaser.Point(0, 0)
 		this.health = 100
 		this.point = 0
+
+		gyro.frequency = 10;
+		// start gyroscope detection
+		gyro.startTracking(function(o) {
+			// updating player velocity
+			this.body.angularVelocity = o.y * 100;
+		});
 	}
 
 	addPlayerLevel(level) {
@@ -55,23 +62,22 @@ class Player extends Phaser.Sprite {
 		this.game.physics.arcade.accelerationFromRotation(
 			this.rotation, this.speed, this.body.acceleration)
 
-
 		this.body.acceleration.x += this.bounceValue.x * 4000
 		this.body.acceleration.y += this.bounceValue.y * 4000
-
 
 		this.bounceValue.x *= 0.75
 		this.bounceValue.y *= 0.75
 
-
-		if (this.keys.left.isDown) {
-			this.body.angularVelocity = -400
-		} else
-		if (this.keys.right.isDown) {
-			this.body.angularVelocity = 400
-		} else {
-			this.body.angularVelocity = 0
-		}
+		/*
+				if (this.keys.left.isDown) {
+					this.body.angularVelocity = o.y
+				} else
+				if (this.keys.right.isDown) {
+					this.body.angularVelocity = o.y
+				} else {
+					this.body.angularVelocity = 0
+				}
+		*/
 
 		if (this.speed < 100)
 			this.speed = 100
