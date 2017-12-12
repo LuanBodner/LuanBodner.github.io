@@ -114,17 +114,13 @@ class PlayState extends GameState {
 		this.createAudio()
 		this.playAudio()
 
-
-		//this.fps = new FramesPerSecond(this.game, this.game.width / 2, 50)
-		//this.game.add.existing(this.fps)
 		super.initFullScreenButtons()
 
 		gyro.frequency = 60;
 
 		gyro.startTracking(function(o) {
-			// updating player velocity
 			spaceShip.body.angularVelocity = o.y * 10
-			//console.log()
+			console.log()
 		});
 
 	}
