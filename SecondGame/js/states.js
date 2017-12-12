@@ -2,7 +2,7 @@ class TitleState extends GameState {
 
 	preload() {
 		this.game.load.image('Title', 'assets/Title.jpg')
-		//this.game.load.image('Name', 'assets/Name.png')
+		this.game.load.image('Name', 'assets/Name.png')
 		this.game.load.audio('TitleAudio', 'assets/TitleScreen.mp3');
 		this.game.load.image('Fullscreen', `assets/Fullscreen.png`);
 
@@ -54,7 +54,7 @@ class TitleState extends GameState {
 		this.pressStart.x = this.game.width / 2
 		this.pressStart.y = this.game.height / 2 + 100
 
-		//this.titleName = this.game.add.image(50, 100, 'Name');
+		this.titleName = this.game.add.image(50, 100, 'Name');
 
 		//let startButton = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER)
 		//startButton.onDown.add(this.startFade, this)
