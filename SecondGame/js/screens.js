@@ -46,6 +46,11 @@ class FramesPerSecond extends Phaser.Text {
 class PlayState extends GameState {
 	preload() {
 
+		if (Config.Level == 5) {
+			Config.Level = 1
+			this.game.state.start('Win')
+		}
+
 		this.game.load.image('Rock', 'assets/Rock.png')
 		this.game.load.image('Spaceship', 'assets/Spaceship.png')
 		this.game.load.image('Fuel', 'assets/Fuel.png')
@@ -119,12 +124,15 @@ class PlayState extends GameState {
 		//this.game.add.existing(this.fps)
 		super.initFullScreenButtons()
 
-		gyro.frequency = 10;
+		/*gyro.frequency = 10;
 
 		gyro.startTracking(function(o) {
 			// updating player velocity
 			spaceShip.body.angularVelocity = o.y * 100
-		});
+		});/*/
+
+		if (Config.Level == 4)
+			this.createTimer()
 
 	}
 
@@ -147,6 +155,31 @@ class PlayState extends GameState {
 		this.speedText.text = "Speed: " + spaceShip.speed
 		this.healthText.text = "Health: " + spaceShip.health
 		this.pointText.text = "Points: " + spaceShip.point
+		if (Config.Level == 4) {
+			this.timerText.text = "TIMER: " + this.formatTime(Math.round((this.timerEvent.delay - this.timer.ms) / 1000))
+		}
+	}
+
+	createTimer() {
+		this.timer = this.game.time.create();
+		this.timerEvent = this.timer.add(Phaser.Timer.MINUTE * 1, this.endTimer, this);
+		this.timerText = this.game.add.text(480, 0, "TIMER: " + this.formatTime(Math.round((this.timerEvent.delay - this.timer.ms) / 1000)));
+		this.timerText.fixedToCamera = true
+
+		this.timer.start();
+	}
+
+	endTimer() {
+
+		this.timer.stop();
+		this.killSpaceship()
+	}
+
+	formatTime(s) {
+
+		var minutes = "0" + Math.floor(s / 60);
+		var seconds = "0" + (s - minutes * 60);
+		return minutes.substr(-2) + ":" + seconds.substr(-2);
 	}
 
 	createAudio() {
@@ -282,7 +315,6 @@ class PlayState extends GameState {
 
 		this.game.camera.shake(0.05, 100);
 		this.hitEffect.play()
-
 	}
 
 	hitUFO(spaceShip, UFOEnemy) {
@@ -355,7 +387,6 @@ class PlayState extends GameState {
 	}
 
 	update() {
-
 		//Collide map
 		this.game.physics.arcade.collide(spaceShip, this.exitMap, this.loadNextLevel.bind(this))
 		this.game.physics.arcade.collide(spaceShip, this.mapGroup)
@@ -387,6 +418,7 @@ class PlayState extends GameState {
 		this.background.tilePosition.x = -this.game.camera.x / 5
 		this.background.tilePosition.y = -this.game.camera.y / 5
 		this.updateHUD()
+
 	}
 
 	renderGroup(member) {
@@ -401,9 +433,8 @@ class PlayState extends GameState {
 		//this.mudHazard.forEachAlive(this.renderGroup, this)
 		//this.stoneHazard.forEachAlive(this.renderGroup, this)
 		//this.spikeHazard.forEachAlive(this.renderGroup, this)
-
+		//this.stoneHazard.forEachAlive(this.renderGroup, this)
 		//this.game.debug.pointer(this.game.input.pointer1);
-
 	}
 }
 

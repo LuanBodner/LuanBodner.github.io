@@ -60,16 +60,15 @@ class Player extends Phaser.Sprite {
 
 		this.bounceValue.x *= 0.75
 		this.bounceValue.y *= 0.75
-/*
 		if (this.keys.left.isDown) {
-			this.body.angularVelocity = o.y
+			this.body.angularVelocity = -400
 		} else
 		if (this.keys.right.isDown) {
-			this.body.angularVelocity = o.y
+			this.body.angularVelocity = 400
 		} else {
 			this.body.angularVelocity = 0
 		}
-*/
+
 		if (this.speed < 100)
 			this.speed = 100
 
