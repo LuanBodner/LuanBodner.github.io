@@ -8,6 +8,8 @@ Config.y = 1800
 Config.Dead = false
 
 
+var spaceShip
+
 class FramesPerSecond extends Phaser.Text {
 	constructor(game, x, y) {
 		super(game, x, y, 'FPS 00')
@@ -116,14 +118,23 @@ class PlayState extends GameState {
 		//this.fps = new FramesPerSecond(this.game, this.game.width / 2, 50)
 		//this.game.add.existing(this.fps)
 		super.initFullScreenButtons()
+
+		gyro.frequency = 10;
+
+		gyro.startTracking(function(o) {
+			// updating player velocity
+			spaceShip.body.angularVelocity = o.y * 100
+			//console.log()
+		});
+
 	}
 
 	createHUD() {
 
-		this.fuelText = this.game.add.text(0, 0, "Fuel: " + this.spaceShip.fuel);
-		this.speedText = this.game.add.text(0, 25, "Speed: " + this.spaceShip.speed);
-		this.healthText = this.game.add.text(0, 50, "Health: " + this.spaceShip.health);
-		this.pointText = this.game.add.text(0, 75, "Points: " + this.spaceShip.point);
+		this.fuelText = this.game.add.text(0, 0, "Fuel: " + spaceShip.fuel);
+		this.speedText = this.game.add.text(0, 25, "Speed: " + spaceShip.speed);
+		this.healthText = this.game.add.text(0, 50, "Health: " + spaceShip.health);
+		this.pointText = this.game.add.text(0, 75, "Points: " + spaceShip.point);
 
 		this.fuelText.fixedToCamera = true
 		this.healthText.fixedToCamera = true
@@ -133,10 +144,10 @@ class PlayState extends GameState {
 
 	updateHUD() {
 
-		this.fuelText.text = "Fuel: " + this.spaceShip.fuel
-		this.speedText.text = "Speed: " + this.spaceShip.speed
-		this.healthText.text = "Health: " + this.spaceShip.health
-		this.pointText.text = "Points: " + this.spaceShip.point
+		this.fuelText.text = "Fuel: " + spaceShip.fuel
+		this.speedText.text = "Speed: " + spaceShip.speed
+		this.healthText.text = "Health: " + spaceShip.health
+		this.pointText.text = "Points: " + spaceShip.point
 	}
 
 	createAudio() {
@@ -163,13 +174,13 @@ class PlayState extends GameState {
 
 	createPlayer() {
 
-		this.spaceShip = new Player(this.game, 400, 1800, 'Spaceship')
-		this.game.add.existing(this.spaceShip)
-		this.game.camera.follow(this.spaceShip)
+		spaceShip = new Player(this.game, 400, 1800, 'Spaceship')
+		this.game.add.existing(spaceShip)
+		this.game.camera.follow(spaceShip)
 
-		this.spaceShip.point = Config.Points
-		this.spaceShip.fuel = Config.Fuel
-		this.spaceShip.health = Config.Health
+		spaceShip.point = Config.Points
+		spaceShip.fuel = Config.Fuel
+		spaceShip.health = Config.Health
 	}
 
 	createBackground() {
@@ -287,9 +298,9 @@ class PlayState extends GameState {
 
 	slowDownSpaceship() {
 
-		this.spaceShip.body.velocity.x = 0
-		this.spaceShip.body.drag.set(10000)
-		this.spaceShip.speed = 10
+		spaceShip.body.velocity.x = 0
+		spaceShip.body.drag.set(10000)
+		spaceShip.speed = 10
 		if (!this.slugEffect.isPlaying)
 			this.slugEffect.play()
 	}
@@ -332,14 +343,14 @@ class PlayState extends GameState {
 	killSpaceship(a, b) {
 
 		Config.Dead = true
-		this.spaceShip.kill()
+		spaceShip.kill()
 
 		this.musicLevel.stop()
 		this.hitEffect.stop()
 		this.slugEffect.stop()
 		this.coinEffect.stop()
 		this.fuelEffect.stop()
-		this.spaceShip.boostEffect.stop()
+		spaceShip.boostEffect.stop()
 		this.hitEffect.play()
 		this.game.state.start('End')
 	}
@@ -347,31 +358,31 @@ class PlayState extends GameState {
 	update() {
 
 		//Collide map
-		this.game.physics.arcade.collide(this.spaceShip, this.exitMap, this.loadNextLevel.bind(this))
-		this.game.physics.arcade.collide(this.spaceShip, this.mapGroup)
+		this.game.physics.arcade.collide(spaceShip, this.exitMap, this.loadNextLevel.bind(this))
+		this.game.physics.arcade.collide(spaceShip, this.mapGroup)
 		this.game.physics.arcade.collide(this.thumpHazard, this.mapGroup)
 		this.game.physics.arcade.collide(this.birdEnemy, this.mapGroup, this.flipBird.bind(this))
 		this.game.physics.arcade.collide(this.UFOEnemy, this.mapGroup, this.flipUFO.bind(this))
 
 		//Collide/Overlap Hazards
-		this.game.physics.arcade.collide(this.spikeHazard, this.spaceShip, this.killSpaceship.bind(this))
-		if (this.game.physics.arcade.overlap(this.mudHazard, this.spaceShip)) {
+		this.game.physics.arcade.collide(this.spikeHazard, spaceShip, this.killSpaceship.bind(this))
+		if (this.game.physics.arcade.overlap(this.mudHazard, spaceShip)) {
 			this.slowDownSpaceship()
 		}
 
-		if (this.spaceShip.health <= 0) {
+		if (spaceShip.health <= 0) {
 			this.killSpaceship(0, 0)
 		}
-		this.game.physics.arcade.collide(this.spaceShip, this.stoneHazard, this.hitStone.bind(this))
-		this.game.physics.arcade.collide(this.spaceShip, this.thumpHazard, this.killSpaceship.bind(this))
+		this.game.physics.arcade.collide(spaceShip, this.stoneHazard, this.hitStone.bind(this))
+		this.game.physics.arcade.collide(spaceShip, this.thumpHazard, this.killSpaceship.bind(this))
 
 		//Overlap items
-		this.game.physics.arcade.overlap(this.spaceShip, this.fuelBonus, this.reFuel.bind(this))
-		this.game.physics.arcade.overlap(this.spaceShip, this.starBonus, this.rePoint.bind(this))
+		this.game.physics.arcade.overlap(spaceShip, this.fuelBonus, this.reFuel.bind(this))
+		this.game.physics.arcade.overlap(spaceShip, this.starBonus, this.rePoint.bind(this))
 
 		//Enemy movement
-		this.game.physics.arcade.collide(this.spaceShip, this.birdEnemy, this.hitBird.bind(this))
-		this.game.physics.arcade.collide(this.spaceShip, this.UFOEnemy, this.hitUFO.bind(this))
+		this.game.physics.arcade.collide(spaceShip, this.birdEnemy, this.hitBird.bind(this))
+		this.game.physics.arcade.collide(spaceShip, this.UFOEnemy, this.hitUFO.bind(this))
 
 
 		this.background.tilePosition.x = -this.game.camera.x / 5
@@ -386,13 +397,13 @@ class PlayState extends GameState {
 
 	render() {
 		//this.mapGroup.forEachAlive(this.renderGroup, this)
-		//this.game.debug.body(this.spaceShip)
+		//this.game.debug.body(spaceShip)
 		//this.game.debug.body(this.thumpHazard)
 		//this.mudHazard.forEachAlive(this.renderGroup, this)
 		//this.stoneHazard.forEachAlive(this.renderGroup, this)
-		//athis.spikeHazard.forEachAlive(this.renderGroup, this)
+		//this.spikeHazard.forEachAlive(this.renderGroup, this)
 
-		this.game.debug.pointer(this.game.input.pointer1);
+		//this.game.debug.pointer(this.game.input.pointer1);
 
 	}
 }
