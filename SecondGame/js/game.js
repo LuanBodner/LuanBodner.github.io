@@ -14,10 +14,14 @@ class Game extends Phaser.Game {
         this.state.add('Title', TitleState, false)
         this.state.add('Win', WinState, false)
 
+        this.state.add('IntroCutscene', IntroCutscene, false)
+        this.state.add('EndingCutscene', EndingCutscene, false)
+
         this.state.start('Title')
         GAME = this
     }
 }
+
 // CLASSE GENERICA DE TELAS //////////////////////////////////////////////////////
 class GameState extends Phaser.State {
     initFullScreenButtons() {

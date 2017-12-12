@@ -76,9 +76,8 @@ class TitleState extends GameState {
 
 		this.titleEffect.stop()
 		this.game.camera.onFadeComplete.removeAll(this)
-		this.game.state.start('Play')
+		this.game.state.start('IntroCutscene')
 	}
-
 }
 
 class EndState extends GameState {
@@ -189,6 +188,164 @@ class WinState extends GameState {
 		Config.Points = 0
 		this.game.camera.onFadeComplete.removeAll(this)
 		this.game.state.start('Play')
+	}
+	update() {}
+}
+
+
+class IntroCutscene extends GameState {
+	create() {
+		super.create()
+
+		this.content = [
+			"Um dia, uma nave espacial estava investigando",
+			"um planeta muito distante, em uma outra galáxia,",
+			"tentando 'adquirir' a tecnologia mais avançada dos",
+			"seus habitantes. Porém, esta nave foi descoberta",
+			"e a tripulação foi capturada!",
+			"A sua missão é guiar remotamente essa nave para",
+			"o seu planeta original!",
+			"",
+			"",
+			"BOA SORTE!"
+		]
+
+		this.line = []
+		this.wordIndex = 0
+		this.lineIndex = 0
+
+		this.wordDelay = 120
+		this.lineDelay = 400
+
+		this.text = this.game.add.text(32, 32, '', {
+			font: "32px Arial",
+			fill: "#19de65"
+		});
+
+		this.nextLine()
+
+	}
+
+	nextLine() {
+
+		if (this.lineIndex == this.content.length) {
+
+			this.startFade()
+		} else {
+
+			this.line = this.content[this.lineIndex].split(' ')
+
+			this.wordIndex = 0
+
+			this.game.time.events.repeat(this.wordDelay, this.line.length, this.nextWord, this)
+			this.lineIndex++
+		}
+	}
+
+	nextWord() {
+
+		this.text.text = this.text.text.concat(this.line[this.wordIndex] + " ");
+		this.wordIndex++;
+
+		if (this.wordIndex === this.line.length) {
+
+			this.text.text = this.text.text.concat("\n");
+			this.game.time.events.add(this.lineDelay, this.nextLine, this);
+		}
+
+	}
+
+	startFade() {
+		if (!this.pressed) {
+			this.pressed = true
+			this.game.camera.fade(0x000000, 1000)
+			this.game.camera.onFadeComplete.add(this.startGame, this)
+		}
+	}
+	startGame() {
+		//Config.Level = 1
+		Config.Fuel = 100
+		Config.Health = 100
+		Config.Points = 0
+		this.game.camera.onFadeComplete.removeAll(this)
+		this.game.state.start('Play')
+	}
+	update() {}
+}
+
+class EndingCutscene extends GameState {
+	create() {
+		super.create()
+
+		this.content = [
+			"Você conseguiu derrotar os alienígenas",
+			"e as armadilhas que eles colocaram no seu caminho!",
+			"Agora a nave espacial com a tecnologia secreta",
+			"chegou ao seu planeta!",
+			"",
+			"",
+			"Parabéns!",
+		]
+
+		this.line = []
+		this.wordIndex = 0
+		this.lineIndex = 0
+
+		this.wordDelay = 120
+		this.lineDelay = 400
+
+		this.text = this.game.add.text(32, 32, '', {
+			font: "32px Arial",
+			fill: "#19de65"
+		});
+
+		this.nextLine()
+
+	}
+
+	nextLine() {
+
+		if (this.lineIndex == this.content.length) {
+
+			this.startFade()
+		} else {
+
+			this.line = this.content[this.lineIndex].split(' ')
+
+			this.wordIndex = 0
+
+			this.game.time.events.repeat(this.wordDelay, this.line.length, this.nextWord, this)
+			this.lineIndex++
+		}
+	}
+
+	nextWord() {
+
+		this.text.text = this.text.text.concat(this.line[this.wordIndex] + " ");
+		this.wordIndex++;
+
+		if (this.wordIndex === this.line.length) {
+
+			this.text.text = this.text.text.concat("\n");
+			this.game.time.events.add(this.lineDelay, this.nextLine, this);
+		}
+
+	}
+
+	startFade() {
+		if (!this.pressed) {
+			this.pressed = true
+			this.game.camera.fade(0x000000, 1000)
+			this.game.camera.onFadeComplete.add(this.startGame, this)
+		}
+	}
+	startGame() {
+		//Config.Level = 1
+		Config.Fuel = 100
+		Config.Health = 100
+		Config.Points = 0
+		this.game.camera.onFadeComplete.removeAll(this)
+		this.game.state.start('Win')
 	}
 	update() {}
 }
