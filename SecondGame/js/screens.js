@@ -123,7 +123,7 @@ class PlayState extends GameState {
 
 		gyro.startTracking(function(o) {
 			// updating player velocity
-			spaceShip.body.angularVelocity = o.y * 100
+			spaceShip.body.angularVelocity = o.y * 50
 			//console.log()
 		});
 
